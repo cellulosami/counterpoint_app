@@ -1,0 +1,2 @@
+class CantusFirmusGenerator < ApplicationRecord
+end

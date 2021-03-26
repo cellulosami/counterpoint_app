@@ -1,0 +1,2 @@
+class CantusFirmusScore < ApplicationRecord
+end
