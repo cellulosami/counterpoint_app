@@ -103,7 +103,6 @@ class CantusFirmusScore < ApplicationRecord
   end
   
   def build_cantus_firmus
-    startup
     determine_original_valid_movements
     determine_current_available_movements
     while CantusFirmusValidator.valid?(@notes) == false && @possible == true
