@@ -102,6 +102,30 @@ class CantusFirmusScore < ApplicationRecord
     end
   end
   
+  def convert_to_notation
+    converter = {
+      "-12" => "C3",
+      "-10" => "D3",
+      "-8" => "E3",
+      "-7" => "F3",
+      "-5" => "G3",
+      "-3" => "A3",
+      "-1" => "B3",
+      "0" => "C4",
+      "2" => "D4",
+      "4" => "E4",
+      "5" => "F4",
+      "7" => "G4",
+      "9" => "A4",
+      "11" => "B4",
+      "12" => "C5",
+      "14" => "D5",
+      "16" => "E5"
+    }
+    @notes = @notes.map { |note| converter[note.to_s]}
+    return @notes
+  end
+
   def build_cantus_firmus
     determine_original_valid_movements
     determine_current_available_movements
@@ -111,14 +135,15 @@ class CantusFirmusScore < ApplicationRecord
     end
 
     if @possible == true
-      p @notes
-      p "#{@iterations} iterations"
-      return @notes
+      #p @notes
+      #p "#{@iterations} iterations"
+      return convert_to_notation
       #CantusFirmusValidatorWithPrintStatements.valid?(@notes)
     else
       return "failed"
     end
   end
+
 
   def build_a_lot(length, tmt)
     this_many_times = tmt
