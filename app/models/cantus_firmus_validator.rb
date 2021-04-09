@@ -21,7 +21,6 @@ class CantusFirmusValidator < ApplicationRecord
     while i < @notes.length
       if @notes[i] > highest_note
         highest_note = @notes[i]
-        p
         if ((i + 1) / @notes.length.to_f) > 0.25 && ((i + 1) / @notes.length.to_f) < 0.75 #checks if climax is toward middle
           climax_presence = true
         else

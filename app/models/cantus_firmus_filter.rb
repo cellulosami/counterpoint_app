@@ -7,6 +7,8 @@ class CantusFirmusFilter < ApplicationRecord
     @leaps = movements[position][:leaps]
     
     self.range_filter
+    self.pre_climax_filter
+    self.duplet_repetition_filter
     self.opposite_direction_step_filter
     self.penultimate_filter
     self.ultimate_filter
@@ -14,6 +16,7 @@ class CantusFirmusFilter < ApplicationRecord
     self.consecutive_leap_filter
     self.palindrome_filter
     self.note_repetition_filter
+    #self.climax_filter
 
     @movements[position][:steps] = @steps
     @movements[position][:leaps] = @leaps
@@ -145,6 +148,50 @@ class CantusFirmusFilter < ApplicationRecord
       end
       if @leaps[0]
         @leaps = @leaps.select { |move| (@notes[@position] + move) != @notes[@position - 1] }
+      end
+    end
+  end
+
+  def self.pre_climax_filter
+    if @position <= 0.25 && (@steps[0] || @leaps[0])
+      if @notes[0..@position].max - @notes[0..@position].min >= 12 #checks if the maximum range has been hit too early
+        @steps = []
+        @leaps = []
+      else
+        @steps = @steps.select { |move| (@notes[@position] + move) < 11 }
+        @leaps = @leaps.select { |move| (@notes[@position] + move) < 11 }
+      end
+    end
+  end
+
+  def self.climax_filter
+    if (@position + 1) / @notes.length.to_f >= 0.75 && (@steps[0] || @leaps [0])
+      current_notes = @notes[0..@position]
+      if current_notes.max == 11 || current_notes.max < 3
+        @leaps = []
+        @steaps = []
+      else
+        highest_note = 2
+        good_climax = false
+        i = 0
+        while i < current_notes.length
+          if current_notes[i] > highest_note
+            highest_note = current_notes[i]
+            if ((i + 1) / @notes.length.to_f) > 0.25 && ((i + 1) / @notes.length.to_f) < 0.75 #checks if climax is toward middle
+              good_climax = true
+            else
+              good_climax = false
+            end
+          elsif current_notes[i] == highest_note
+            good_climax = false
+          end 
+
+          if good_climax == false
+            @steps = []
+            @leaps = []
+          end
+          i += 1
+        end
       end
     end
   end
