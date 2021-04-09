@@ -153,7 +153,7 @@ class CantusFirmusFilter < ApplicationRecord
   end
 
   def self.pre_climax_filter
-    if @position <= 0.25 && (@steps[0] || @leaps[0])
+    if ((@position + 1) / @notes.length.to_f) <= 0.25 && (@steps[0] || @leaps[0])
       if @notes[0..@position].max - @notes[0..@position].min >= 12 #checks if the maximum range has been hit too early
         @steps = []
         @leaps = []
@@ -166,8 +166,10 @@ class CantusFirmusFilter < ApplicationRecord
 
   def self.climax_filter
     if (@position + 1) / @notes.length.to_f >= 0.75 && (@steps[0] || @leaps [0])
+      
       current_notes = @notes[0..@position]
       if current_notes.max == 11 || current_notes.max < 3
+        p "silly"
         @leaps = []
         @steaps = []
       else
@@ -187,6 +189,10 @@ class CantusFirmusFilter < ApplicationRecord
           end 
 
           if good_climax == false
+            p @notes
+            p @position
+            p current_notes
+            p "_______________________"
             @steps = []
             @leaps = []
           end

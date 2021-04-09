@@ -9,12 +9,13 @@ class Api::CantusFirmusScoresController < ApplicationController
   end
 
   def rapidfire
+    scores = []
     12.times do
       cantus_firmus = CantusFirmusScore.new
       cantus_firmus.startup
-      cantus_firmus.length = rand(8..16)
-      cantus_firmus.build_cantus_firmus
+      cantus_firmus.length = params[:length].to_i
+      scores << cantus_firmus.build_cantus_firmus
     end
-    render json: { message: "good job (thumbs up)"}
+    render json: scores
   end
 end
