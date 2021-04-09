@@ -20,6 +20,13 @@ class CantusFirmusFilter < ApplicationRecord
     return @movements
   end
 
+  def self.range_filter
+    if (@notes[0..@position].max - @notes[0..@position].min) > 12
+      @steps = []
+      @leaps = []
+    end
+  end
+
   def self.opposite_direction_step_filter
     #checks whether the previous movement was a large leap
     if @steps[0] && (@notes[@position-1] - @notes[@position]).abs() >= 5
@@ -131,12 +138,14 @@ class CantusFirmusFilter < ApplicationRecord
     end
   end
 
-  def self.range_filter
-    if (@notes[0..@position].max - @notes[0..@position].min) > 12
-      @steps = []
-      @leaps = []
+  def self.duplet_repetition_filter
+    if @position > 1 && @notes[@position] == @notes[@position - 2]
+      if @steps[0]
+        @steps = @steps.select { |move| (@notes[@position] + move) != @notes[@position - 1] }
+      end
+      if @leaps[0]
+        @leaps = @leaps.select { |move| (@notes[@position] + move) != @notes[@position - 1] }
+      end
     end
   end
-    #three leaps may not occur in a row
-    #large leap (5th or more) cannot be followed by a leap
 end
