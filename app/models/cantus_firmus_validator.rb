@@ -8,6 +8,7 @@ class CantusFirmusValidator < ApplicationRecord
     if @notes[-2] > -3 && @notes[-2] < 3 && @notes[-2] != 0
       return true
     else
+      p "penultimate check is false"
       return false
     end
   end
@@ -36,6 +37,9 @@ class CantusFirmusValidator < ApplicationRecord
       climax_presence = false
     end
 
+    if climax_presence == false
+      p "climax presence is false"
+    end
     return climax_presence
   end
 
@@ -43,6 +47,7 @@ class CantusFirmusValidator < ApplicationRecord
     if (@notes.max - @notes.min) < 13
       return true
     else
+      p "range check is false"
       return false
     end
   end
@@ -60,6 +65,7 @@ class CantusFirmusValidator < ApplicationRecord
     if leaps.to_f / @notes.length.to_f <= 0.33
       return true
     else
+      p "leap percentage check is false"
       return false
     end
   end
@@ -78,6 +84,8 @@ class CantusFirmusValidator < ApplicationRecord
     note_count.keys.each do |key|
       if (note_count[key].to_f / @notes.length.to_f) > 0.25
         acceptable_repetitions = false
+        p "note repetition check is false"
+        break
       end
     end
     return acceptable_repetitions
@@ -89,6 +97,8 @@ class CantusFirmusValidator < ApplicationRecord
     while i < (@notes.length - 3)
       if [@notes[i], @notes[i+1]] == [@notes[i+2], @notes[i+3]]
         acceptable_repetitions = false
+        p "pair repetition check is false"
+        break
       end
       i += 1
     end
@@ -101,6 +111,8 @@ class CantusFirmusValidator < ApplicationRecord
     while i < (@notes.length - 5)
       if [@notes[i], @notes[i+1], @notes[i+2]] == [@notes[i+3], @notes[i+4], @notes[i+5]]
         acceptable_repetitions = false
+        p "triplet repetition check is false"
+        break
       end
       i += 1
     end

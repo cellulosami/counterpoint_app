@@ -132,6 +132,10 @@ class CantusFirmusScore < ApplicationRecord
     while CantusFirmusValidator.valid?(@notes) == false && @possible == true
       iterate
       @current_note_position -= 1
+      if @iterations % 1000 == 0
+        p @iterations
+        p @notes
+      end
     end
 
     if @possible == true
@@ -141,24 +145,6 @@ class CantusFirmusScore < ApplicationRecord
       #CantusFirmusValidatorWithPrintStatements.valid?(@notes)
     else
       return "failed"
-    end
-  end
-
-
-  def build_a_lot(length, tmt)
-    this_many_times = tmt
-    this_many_times.times do
-      @length = (length)
-      @notes = []
-      @length.times do
-        @notes << 0
-      end
-      @iterations = 1
-
-      @current_note_position = 0
-      @current_available_movements = []
-
-      build_cantus_firmus
     end
   end
 end
