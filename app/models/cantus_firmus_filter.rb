@@ -101,6 +101,33 @@ class CantusFirmusFilter < ApplicationRecord
   end
 
   def self.note_repetition_filter
+    if (@steps[0] || @leaps[0]) && ((@position + 1) / @notes.length.to_f) > 0.25#ignores if there aren't enough notes yet or there are no available moves anyway
+
+      note_count = {}
+
+      if (@position + 1) == @notes.length
+        i = @position - 1
+      else
+        i = @position
+      end
+
+      while i >= -1 #counts all notes generated thus far as well as the final tonic
+        if note_count[@notes[i]]
+          note_count[@notes[i]] += 1
+        else
+          note_count[@notes[i]] = 1
+        end
+        i -= 1
+      end
+
+      note_count.keys.each do |key|
+        if (note_count[key].to_f / @notes.length.to_f) > 0.25
+          @steps = []
+          @leaps = []
+          break
+        end
+      end
+    end
   end
     #three leaps may not occur in a row
     #large leap (5th or more) cannot be followed by a leap
