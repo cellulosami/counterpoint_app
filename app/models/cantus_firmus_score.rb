@@ -17,16 +17,14 @@ class CantusFirmusScore < ApplicationRecord
 
   def determine_original_valid_movements
     if @mode == "ionian"
-      @original_valid_movements = {
-        -12=>{:steps=>[2], :leaps=>[4, 5, 7, 12]}, 
-        -10=>{:steps=>[-2, 2], :leaps=>[3, 5, 7, 12]}, 
-        -8=>{:steps=>[-2, 1], :leaps=>[-4, 3, 5, 7, 8, 12]}, 
-        -7=>{:steps=>[-1, 2], :leaps=>[-5, -3, 4, 7, 12]}, 
-        -5=>{:steps=>[-2, 2], :leaps=>[-7, -5, -3, 4, 5, 7, 12]}, 
-        -3=>{:steps=>[-2, 2], :leaps=>[-7, -5, -4, 3, 5, 7, 8, 12]}, 
+      @original_valid_movements = { 
+        -8=>{:steps=>[1], :leaps=>[3, 5, 7, 8, 12]}, 
+        -7=>{:steps=>[-1, 2], :leaps=>[4, 7, 12]}, 
+        -5=>{:steps=>[-2, 2], :leaps=>[-3, 4, 5, 7, 12]}, 
+        -3=>{:steps=>[-2, 2], :leaps=>[-5, -4, 3, 5, 7, 8, 12]}, 
         -1=>{:steps=>[1], :leaps=>[]}, 
-        0=>{:steps=>[-1, 2], :leaps=>[-12, -7, -5, -3, 4, 5, 7, 12]}, 
-        2=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -3, 3, 5, 7, 12]}, 
+        0=>{:steps=>[-1, 2], :leaps=>[-7, -5, -3, 4, 5, 7, 12]}, 
+        2=>{:steps=>[-2, 2], :leaps=>[-7, -5, -3, 3, 5, 7, 12]}, 
         4=>{:steps=>[-2, 1], :leaps=>[-12, -7, -5, -4, 3, 5, 7, 8, 12]}, 
         5=>{:steps=>[-1, 2], :leaps=>[-12, -5, -3, 4, 7]}, 
         7=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -3, 4, 5, 7]}, 

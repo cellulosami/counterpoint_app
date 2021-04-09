@@ -168,9 +168,13 @@ class CantusFirmusFilter < ApplicationRecord
     if (@position + 1) / @notes.length.to_f >= 0.75 && (@steps[0] || @leaps [0])
       
       current_notes = @notes[0..@position]
-      if current_notes.max == 11 || current_notes.max < 3
+      if current_notes.max == 11
         @leaps = []
         @steaps = []
+      elsif current_notes.max < 3
+        @leaps = []
+        @steaps = []
+        p "codeuroy"
       else
         highest_note = 2
         good_climax = false
@@ -192,6 +196,9 @@ class CantusFirmusFilter < ApplicationRecord
         if good_climax == false
           @steps = []
           @leaps = []
+        else
+          @steps = @steps.select { |move| (@notes[@position] + move) < highest_note }
+          @leaps = @leaps.select { |move| (@notes[@position] + move) < highest_note }
         end
       end
     end
