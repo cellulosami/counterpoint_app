@@ -135,8 +135,8 @@ class CantusFirmusScore < ApplicationRecord
     end
 
     if @possible == true
-      #p @notes
-      #p "#{@iterations} iterations"
+      p @notes
+      p "#{@iterations} iterations"
       return convert_to_notation
       #CantusFirmusValidatorWithPrintStatements.valid?(@notes)
     else
