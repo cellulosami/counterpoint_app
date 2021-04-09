@@ -16,7 +16,7 @@ class CantusFirmusFilter < ApplicationRecord
     self.consecutive_leap_filter
     self.palindrome_filter
     self.note_repetition_filter
-    #self.climax_filter
+    self.climax_filter
 
     @movements[position][:steps] = @steps
     @movements[position][:leaps] = @leaps
@@ -169,7 +169,6 @@ class CantusFirmusFilter < ApplicationRecord
       
       current_notes = @notes[0..@position]
       if current_notes.max == 11 || current_notes.max < 3
-        p "silly"
         @leaps = []
         @steaps = []
       else
@@ -188,15 +187,11 @@ class CantusFirmusFilter < ApplicationRecord
             good_climax = false
           end 
 
-          if good_climax == false
-            p @notes
-            p @position
-            p current_notes
-            p "_______________________"
-            @steps = []
-            @leaps = []
-          end
           i += 1
+        end
+        if good_climax == false
+          @steps = []
+          @leaps = []
         end
       end
     end

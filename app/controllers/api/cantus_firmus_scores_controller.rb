@@ -10,7 +10,7 @@ class Api::CantusFirmusScoresController < ApplicationController
 
   def rapidfire
     scores = []
-    12.times do
+    params[:repetitions].to_i.times do
       cantus_firmus = CantusFirmusScore.new
       cantus_firmus.startup
       cantus_firmus.length = params[:length].to_i
