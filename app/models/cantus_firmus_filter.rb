@@ -5,7 +5,8 @@ class CantusFirmusFilter < ApplicationRecord
     @movements = movements
     @steps = movements[position][:steps]
     @leaps = movements[position][:leaps]
-
+    
+    self.range_filter
     self.opposite_direction_step_filter
     self.penultimate_filter
     self.ultimate_filter
@@ -127,6 +128,13 @@ class CantusFirmusFilter < ApplicationRecord
           break
         end
       end
+    end
+  end
+
+  def self.range_filter
+    if (@notes[0..@position].max - @notes[0..@position].min) > 12
+      @steps = []
+      @leaps = []
     end
   end
     #three leaps may not occur in a row
