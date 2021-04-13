@@ -2,7 +2,6 @@ class CantusFirmusScore < ApplicationRecord
   attr_accessor :original_valid_movements, :notes, :length, :current_available_movements, :current_note_position, :iterations
 
   def startup
-    @length = 8
     @notes = []
     @length.times do
       @notes << 0

@@ -47,8 +47,12 @@ class CantusFirmusFilter < ApplicationRecord
 
   def self.ultimate_filter
     if @position == @notes.length - 2
+      #p "ultimate filter"
       @leaps = []
+      #p @leaps
       @steps = @steps.select { |move| @notes[@position] + move == 0 }
+      #p @steps
+      #p @notes
     end
   end
 
