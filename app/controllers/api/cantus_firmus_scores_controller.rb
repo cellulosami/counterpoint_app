@@ -3,7 +3,6 @@ class Api::CantusFirmusScoresController < ApplicationController
     cantus_firmus = CantusFirmusScore.new
     cantus_firmus.length = params[:length].to_i
     cantus_firmus.startup
-    p "startup notes: #{cantus_firmus.notes}"
     @notes = cantus_firmus.build_cantus_firmus
     @iterations = cantus_firmus.iterations
     render "show.json.jb"

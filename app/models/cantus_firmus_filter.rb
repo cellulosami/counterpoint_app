@@ -17,6 +17,7 @@ class CantusFirmusFilter < ApplicationRecord
     self.palindrome_filter
     self.note_repetition_filter
     self.climax_filter
+    self.triplet_repetition_filter
 
     @movements[position][:steps] = @steps
     @movements[position][:leaps] = @leaps
@@ -152,6 +153,17 @@ class CantusFirmusFilter < ApplicationRecord
       end
       if @leaps[0]
         @leaps = @leaps.select { |move| (@notes[@position] + move) != @notes[@position - 1] }
+      end
+    end
+  end
+  
+  def self.triplet_repetition_filter
+    if @position > 3 && (@steps[0] || @leaps[0]) && @notes[@position] == @notes[@position - 3] && @notes[@position - 1] == @notes[@position - 4]
+      if @steps[0]
+        @steps = @steps.select { |move| (@notes[@position] + move) != @notes[@position - 2] }
+      end
+      if @leaps[0]
+        @leaps = @leaps.select { |move| (@notes[@position] + move) != @notes[@position - 2] }
       end
     end
   end
