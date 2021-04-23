@@ -38,10 +38,10 @@ class CantusFirmusScore < ApplicationRecord
         -9=>{:steps=>[2], :leaps=>[4, 7, 12]}, 
         -7=>{:steps=>[-2, 2], :leaps=>[4, 5, 7, 12]}, 
         -5=>{:steps=>[-2, 2], :leaps=>[-4, 3, 5, 7, 12]}, 
-        -3=>{:steps=>[-2, 1], :leaps=>[-5, -4, 3, 5, 7, 8, 12]}, 
+        -3=>{:steps=>[-2, 1], :leaps=>[-4, 3, 5, 8, 12]}, 
         -2=>{:steps=>[2], :leaps=>[]}, 
         0=>{:steps=>[-2, 2], :leaps=>[-7, -5, -3, 3, 5, 7, 12]}, 
-        2=>{:steps=>[-2, 2], :leaps=>[-7, -5, -4, 3, 5, 7, 8, 12]}, 
+        2=>{:steps=>[-2, 1], :leaps=>[-7, -5, -4, 3, 5, 7, 8, 12]}, 
         3=>{:steps=>[-1, 2], :leaps=>[-12, -5, -3, 4, 7, 12]}, 
         5=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -3, 4, 5, 7]}, 
         7=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -4, 3, 5, 7]}, 
@@ -56,6 +56,10 @@ class CantusFirmusScore < ApplicationRecord
 
   def determine_current_available_movements
     @current_available_movements[@current_note_position] = @original_valid_movements[@notes[@current_note_position]].dup
+    p "round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`"
+    p @current_note_position
+    p @notes
+    p @current_available_movements
   end
 
   def execute_movement
@@ -118,25 +122,47 @@ class CantusFirmusScore < ApplicationRecord
   end
   
   def convert_to_notation
-    converter = {
-      "-12" => "c/3",
-      "-10" => "d/3",
-      "-8" => "e/3",
-      "-7" => "f/3",
-      "-5" => "g/3",
-      "-3" => "a/3",
-      "-1" => "b/3",
-      "0" => "c/4",
-      "2" => "d/4",
-      "4" => "e/4",
-      "5" => "f/4",
-      "7" => "g/4",
-      "9" => "a/4",
-      "11" => "b/4",
-      "12" => "c/5",
-      "14" => "d/5",
-      "16" => "e/5"
-    }
+    if @mode == "ionian"
+      converter = {
+        "-12" => "c/3",
+        "-10" => "d/3",
+        "-8" => "e/3",
+        "-7" => "f/3",
+        "-5" => "g/3",
+        "-3" => "a/3",
+        "-1" => "b/3",
+        "0" => "c/4",
+        "2" => "d/4",
+        "4" => "e/4",
+        "5" => "f/4",
+        "7" => "g/4",
+        "9" => "a/4",
+        "11" => "b/4",
+        "12" => "c/5",
+        "14" => "d/5",
+        "16" => "e/5"
+      }
+    elsif @mode == "dorian"
+      converter = {
+        "-12" => "d/3",
+        "-10" => "e/3",
+        "-9" => "f/3",
+        "-7" => "g/3",
+        "-5" => "a/3",
+        "-3" => "b/3",
+        "-2" => "c/4",
+        "0" => "d/4",
+        "2" => "e/4",
+        "3" => "f/4",
+        "5" => "g/4",
+        "7" => "a/4",
+        "9" => "b/4",
+        "10" => "c/5",
+        "12" => "d/5",
+        "14" => "e/5",
+        "15" => "f/5"
+      }
+    end
     @notes = @notes.map { |note| converter[note.to_s]}
     return @notes
   end
