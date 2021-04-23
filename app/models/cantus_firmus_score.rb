@@ -10,7 +10,7 @@ class CantusFirmusScore < ApplicationRecord
 
     @current_note_position = 0
     @current_available_movements = []
-    @mode = "ionian"
+    @mode = "dorian"
     @possible = true
   end
 
@@ -32,6 +32,24 @@ class CantusFirmusScore < ApplicationRecord
         12=>{:steps=>[-1, 2], :leaps=>[-12, -7, -5, -3, 4]}, 
         14=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -3]}, 
         16=>{:steps=>[-2], :leaps=>[-12, -7, -5, -4]}
+      } 
+    elsif @mode == "dorian"
+      @original_valid_movements = {
+        -9=>{:steps=>[2], :leaps=>[4, 7, 12]}, 
+        -7=>{:steps=>[-2, 2], :leaps=>[4, 5, 7, 12]}, 
+        -5=>{:steps=>[-2, 2], :leaps=>[-4, 3, 5, 7, 12]}, 
+        -3=>{:steps=>[-2, 1], :leaps=>[-5, -4, 3, 5, 7, 8, 12]}, 
+        -2=>{:steps=>[2], :leaps=>[]}, 
+        0=>{:steps=>[-2, 2], :leaps=>[-7, -5, -3, 3, 5, 7, 12]}, 
+        2=>{:steps=>[-2, 2], :leaps=>[-7, -5, -4, 3, 5, 7, 8, 12]}, 
+        3=>{:steps=>[-1, 2], :leaps=>[-12, -5, -3, 4, 7, 12]}, 
+        5=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -3, 4, 5, 7]}, 
+        7=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -4, 3, 5, 7]}, 
+        9=>{:steps=>[-2, 1], :leaps=>[-12, -7, -4, 3, 5]}, 
+        10=>{:steps=>[2], :leaps=>[]}, 
+        12=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -3, 3]}, 
+        14=>{:steps=>[-2, 1], :leaps=>[-12, -7, -5, -4]}, 
+        15=>{:steps=>[-1], :leaps=>[-12, -5, -3]}
       }
     end
   end
