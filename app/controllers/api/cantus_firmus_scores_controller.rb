@@ -2,6 +2,7 @@ class Api::CantusFirmusScoresController < ApplicationController
   def create
     cantus_firmus = CantusFirmusScore.new
     cantus_firmus.length = params[:length].to_i
+    cantus_firmus.mode = params[:mode]
     cantus_firmus.startup
     @notes = cantus_firmus.build_cantus_firmus
     @iterations = cantus_firmus.iterations

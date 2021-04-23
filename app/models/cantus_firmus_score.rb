@@ -1,5 +1,5 @@
 class CantusFirmusScore < ApplicationRecord
-  attr_accessor :original_valid_movements, :notes, :length, :current_available_movements, :current_note_position, :iterations
+  attr_accessor :original_valid_movements, :notes, :length, :current_available_movements, :current_note_position, :iterations, :mode
 
   def startup
     @notes = []
@@ -10,7 +10,6 @@ class CantusFirmusScore < ApplicationRecord
 
     @current_note_position = 0
     @current_available_movements = []
-    @mode = "dorian"
     @possible = true
   end
 
