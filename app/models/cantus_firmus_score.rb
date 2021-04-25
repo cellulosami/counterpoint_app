@@ -163,6 +163,9 @@ class CantusFirmusScore < ApplicationRecord
       }
     end
     @notes = @notes.map { |note| converter[note.to_s]}
+    if @mode == "dorian" && @notes[-2] == "c/4"
+      @notes[-2] = "c#/4"
+    end
     return @notes
   end
 

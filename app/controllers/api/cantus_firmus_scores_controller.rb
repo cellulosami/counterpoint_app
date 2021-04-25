@@ -6,6 +6,7 @@ class Api::CantusFirmusScoresController < ApplicationController
     cantus_firmus.startup
     @notes = cantus_firmus.build_cantus_firmus
     @iterations = cantus_firmus.iterations
+    @mode = cantus_firmus.mode
     render "show.json.jb"
   end
 
