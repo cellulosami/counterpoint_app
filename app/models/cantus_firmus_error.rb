@@ -1,0 +1,2 @@
+class CantusFirmusError < ApplicationRecord
+end
