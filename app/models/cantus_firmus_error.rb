@@ -84,6 +84,7 @@ class CantusFirmusError < ApplicationRecord
   def error_check
     begin_and_end_check
     range_check
+    penultimate_check
   end
 
   def begin_and_end_check
@@ -110,5 +111,13 @@ class CantusFirmusError < ApplicationRecord
     end
   end
 
+  def penultimate_check
+    p "penultimate check"
+    if @notes[-2] < @notes[-1] - 2 || @notes[-2] == @notes[-1] || @notes[-2] > @notes[-1] + 2
+      @errors << "Final note is not approached by step."
+    else
+      p "good penultimate"
+    end
+  end
 
 end
