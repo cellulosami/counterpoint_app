@@ -9,7 +9,8 @@ class CantusFirmusError < ApplicationRecord
     p @notes
     @errors = []
     @suggestions = []
-    range_check
+    
+    error_check
 
     if @errors == []
       @errors << "No errors."
@@ -19,7 +20,7 @@ class CantusFirmusError < ApplicationRecord
     end
   end
 
-  def translate_notes(notes)
+  def translate_notes(notes) #converts note strings into integers
     setup_translator
     return notes.map { |note| @translator[note] }
   end
@@ -64,13 +65,29 @@ class CantusFirmusError < ApplicationRecord
     end
   end
   
+  def error_check
+    begin_and_end_check
+    range_check
+  end
+
+  def begin_and_end_check
+    p "begin and end check"
+    if @notes[0] != 0
+      errors << "First note is not the tonic."
+    end
+
+    if @notes[-1] != 0
+      errors << "Last note is not the tonic."
+    elsif @notes[0] == 0
+      p "good begin and end"
+    end
+  end
+  
   def range_check
     p "range check"
     if @notes.max - @notes.min > 16
-      p "bad range"
       @errors << "Range exceeds a 10th."
     elsif @notes.max - @notes.min > 12
-      p "ehh range"
       @suggestions << "Range exceeds an octave."
     else
       p "good range"
