@@ -2,15 +2,11 @@ class CantusFirmusError < ApplicationRecord
   attr_accessor :notes, :errors, :suggestions, :mode
 
   def evaluate(input)
-    @notes = translate_notes(input)
-    p @mode
-    p @translator
-    p @translator[:"e/3"]
-    p @notes
-    @errors = []
-    @suggestions = []
+    setup_evaluate(input)
     
-    error_check
+    if @diatonic == true
+      error_check
+    end
 
     if @errors == []
       @errors << "No errors."
@@ -20,9 +16,28 @@ class CantusFirmusError < ApplicationRecord
     end
   end
 
+  def setup_evaluate(input)
+    @diatonic = true
+    @errors = []
+    @suggestions = []
+    @notes = translate_notes(input)
+    p @mode
+    p @translator
+    p @notes
+  end
+
   def translate_notes(notes) #converts note strings into integers
     setup_translator
-    return notes.map { |note| @translator[note] }
+    result = []
+    notes.each do |note|
+      if @translator[note]
+        result << @translator[note]
+      else
+        @errors << "Not all notes are diatonic. Please correct in order to see other errors/suggestions."
+        @diatonic = false
+      end
+    end
+    return result
   end
 
   def setup_translator
@@ -50,7 +65,8 @@ class CantusFirmusError < ApplicationRecord
         "g/3" => -7,
         "a/3" => -5,
         "b/3" => -3,
-        "c/3" => -2,
+        "c/4" => -2,
+        "c#/4" => -1,
         "d/4" => 0,
         "e/4" => 2,
         "f/4" => 3,
@@ -93,4 +109,6 @@ class CantusFirmusError < ApplicationRecord
       p "good range"
     end
   end
+
+
 end
