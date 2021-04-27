@@ -73,7 +73,7 @@ class CantusFirmusError < ApplicationRecord
         "g/4" => 5,
         "a/4" => 7,
         "b/4" => 9,
-        "c/4" => 10,
+        "c/5" => 10,
         "d/5" => 12,
         "e/5" => 14,
         "f/5" => 15,
@@ -82,9 +82,15 @@ class CantusFirmusError < ApplicationRecord
   end
   
   def error_check
+    #if unclear about what any of these do, read their error/suggestion messages
     begin_and_end_check
+    p ""
     range_check
+    p ""
     penultimate_check
+    p ""
+    climax_value_check
+    p ""
   end
 
   def begin_and_end_check
@@ -120,4 +126,29 @@ class CantusFirmusError < ApplicationRecord
     end
   end
 
+  def climax_value_check
+    p "climax value check"
+    if @notes.max < 3
+      errors << "Climax should be at least a third above the starting note."
+    elsif @notes.max == 10 || @notes.max == 11
+      errors << "Climax should not be the leading tone (7th)."
+    else
+      p "good climax value"
+    end
+  end
+  #climax value check
+  #climax position check
+  #climax repetition check
+  #note stagnation check
+  #note repetition check
+  #duplet repetition check
+  #triplet repetition check
+  #leap percentage check
+  #leap repeition check
+  #leap abation check
+  #direction repeition check
+  #opposite direction step check
+  #equal and opposite leap check
+  #palindrome check
+  #leading tone resolution check
 end
