@@ -135,6 +135,7 @@ class CantusFirmusError < ApplicationRecord
     note_repetition_check
     duplet_repetition_check
     triplet_repetition_check
+    leap_percentage_check
   end
 
   def begin_and_end_check
@@ -258,7 +259,28 @@ class CantusFirmusError < ApplicationRecord
       i += 1
     end
   end
-  #triplet repetition check
+
+  #motif repetition check (repetition of four notes in a row anywhere in the melody)
+
+  def leap_percentage_check
+    p "leap percentage check"
+    leaps = 0
+    i = 1
+    while i < (@notes.length)
+      if ((@notes[i] - @notes[i - 1]).abs()) >= 3
+        leaps += 1
+      end
+      i += 1
+    end
+
+    if leaps / @notes.length.to_f > 0.44
+      @errors << "There are too many leaps. Use more stepwise motion."
+    elsif leaps / @notes.length.to_f > 0.33
+      @suggestions << "Fewer leaps and more stepwise motion may be preferable."
+    else
+      p "good leap percentage"
+    end
+  end
   #leap percentage check
   #leap repeition check
   #leap abation check
@@ -267,5 +289,4 @@ class CantusFirmusError < ApplicationRecord
   #equal and opposite leap check
   #palindrome check
   #leading tone resolution check
-  #motif repetition check
 end
