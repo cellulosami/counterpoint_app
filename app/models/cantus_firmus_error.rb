@@ -308,10 +308,25 @@ class CantusFirmusError < ApplicationRecord
   end
 
   def leap_repetition_check
+    p "leap repetition check"
+    i = 3
+    while i < @notes.length
+      if (@notes[i-2] - @notes[i-3]).abs() > 2 &&
+        (@notes[i-1] - @notes[i-2]).abs() > 2 &&
+        (@notes[i] - @notes[i-1]).abs() > 2
 
+        starting_note = i - 2
+        while (@notes[i+1] - @notes[i]).abs() > 2
+          i += 1
+        end
+        @errors << "From note #{starting_note} to note #{i + 1}, more than two leaps occur in a row"
+      end
+      i += 1
+    end
   end
 
   def direction_repetition_check
+    p "direction repetition check"
   end
 
   def drc_positive
@@ -323,18 +338,18 @@ class CantusFirmusError < ApplicationRecord
   end
 
   def opposite_direction_step_check
-
+    p "opposite direction step check"
   end
 
   def equal_and_opposite_leap_check
-
+    p "equal and opposite leap check"
   end
 
   def palindrome_check
-
+    p "palindrome check"
   end
 
   def leading_tone_resolution_check
-
+    p "leading tone resolution check"
   end
 end
