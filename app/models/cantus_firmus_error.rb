@@ -21,6 +21,7 @@ class CantusFirmusError < ApplicationRecord
     @errors = []
     @suggestions = []
     @notes = translate_notes(input)
+    @length = @notes.length
     p @mode
     p @translator
     p @notes
@@ -84,13 +85,15 @@ class CantusFirmusError < ApplicationRecord
   def error_check
     #if unclear about what any of these do, read their error/suggestion messages
     begin_and_end_check
-    p ""
+    puts ""
     range_check
-    p ""
+    puts ""
     penultimate_check
-    p ""
+    puts ""
     climax_value_check
-    p ""
+    puts ""
+    climax_position_check
+    puts ""
   end
 
   def begin_and_end_check
@@ -136,7 +139,23 @@ class CantusFirmusError < ApplicationRecord
       p "good climax value"
     end
   end
-  #climax value check
+
+  def climax_position_check
+    p "climax position check"
+    max_position = (@notes.index(@notes.max) + 1) / @length.to_f
+    p max_position
+    if max_position <= 0.15
+      @errors << "Climax should be later in the melody."
+    elsif max_position <= 0.25
+      @suggestions << "Climax might work better later in the melody."
+    elsif max_position >= 0.85
+      @errors << "Climax should be earlier in the melody."
+    elsif max_position >= 0.75
+      @suggestions << "Climax might work better earlier in the melody."
+    else
+      p "good climax position"
+    end
+  end
   #climax position check
   #climax repetition check
   #note stagnation check
