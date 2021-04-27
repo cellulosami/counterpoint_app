@@ -126,21 +126,14 @@ class CantusFirmusError < ApplicationRecord
   def error_check
     #if unclear about what any of these do, read their error/suggestion messages
     begin_and_end_check
-    puts ""
     range_check
-    puts ""
     penultimate_check
-    puts ""
     climax_value_check
-    puts ""
     climax_position_check
-    puts ""
     climax_repetition_check
-    puts ""
     note_stagnation_check
-    puts ""
     note_repetition_check
-    puts ""
+    duplet_repetition_check
   end
 
   def begin_and_end_check
@@ -243,7 +236,16 @@ class CantusFirmusError < ApplicationRecord
     end
   end
 
-  #note repetition check
+  def duplet_repetition_check
+    p "duplet repetition check"
+    i = 3
+    while i < @notes.length
+      if [@notes[i-3], @notes[i-2]] == [@notes[i-1], @notes[i]]
+        @errors << "Notes #{i-2}-#{i-1} are a repetition of notes #{i}-#{i+1}."
+      end
+      i += 1
+    end
+  end
   #duplet repetition check
   #triplet repetition check
   #leap percentage check
@@ -254,4 +256,5 @@ class CantusFirmusError < ApplicationRecord
   #equal and opposite leap check
   #palindrome check
   #leading tone resolution check
+  #motif repetition check
 end
