@@ -134,6 +134,7 @@ class CantusFirmusError < ApplicationRecord
     note_stagnation_check
     note_repetition_check
     duplet_repetition_check
+    triplet_repetition_check
   end
 
   def begin_and_end_check
@@ -246,7 +247,17 @@ class CantusFirmusError < ApplicationRecord
       i += 1
     end
   end
-  #duplet repetition check
+
+  def triplet_repetition_check
+    p "triplet repetition check"
+    i = 5
+    while i < @notes.length
+      if [@notes[i-5], @notes[i-4], @notes[i-3]] == [@notes[i-2], @notes[i-1], @notes[i]]
+        @errors << "Notes #{i-4}-#{i-2} are a repetition of notes #{i-1}-#{i+1}."
+      end
+      i += 1
+    end
+  end
   #triplet repetition check
   #leap percentage check
   #leap repeition check
