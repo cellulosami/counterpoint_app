@@ -137,6 +137,12 @@ class CantusFirmusError < ApplicationRecord
     triplet_repetition_check
     leap_percentage_check
     leap_abation_check
+    leap_repetition_check
+    direction_repetition_check
+    opposite_direction_step_check
+    equal_and_opposite_leap_check
+    palindrome_check
+    leading_tone_resolution_check
   end
 
   def begin_and_end_check
@@ -300,11 +306,35 @@ class CantusFirmusError < ApplicationRecord
       i += 1
     end
   end
-  #leap abation check
-  #leap repetition check
-  #direction repeition check
-  #opposite direction step check
-  #equal and opposite leap check
-  #palindrome check
-  #leading tone resolution check
+
+  def leap_repetition_check
+
+  end
+
+  def direction_repetition_check
+  end
+
+  def drc_positive
+
+  end
+
+  def drc_negative
+
+  end
+
+  def opposite_direction_step_check
+
+  end
+
+  def equal_and_opposite_leap_check
+
+  end
+
+  def palindrome_check
+
+  end
+
+  def leading_tone_resolution_check
+
+  end
 end
