@@ -136,6 +136,7 @@ class CantusFirmusError < ApplicationRecord
     duplet_repetition_check
     triplet_repetition_check
     leap_percentage_check
+    leap_abation_check
   end
 
   def begin_and_end_check
@@ -281,9 +282,26 @@ class CantusFirmusError < ApplicationRecord
       p "good leap percentage"
     end
   end
-  #leap percentage check
-  #leap repeition check
+
+  def leap_abation_check
+    p "leap abation check"
+    #check if a move is a leap
+    #check if next move is in same direction
+    #check is next move is equal or larger
+    i = 2
+    while i < @notes.length
+      move1 = @notes[i-2] - @notes[i-1]
+      move2 = @notes[i-1] - @notes[i]
+      if move1.abs > 2 && 
+        move2.abs >= move1.abs && 
+        move1.negative? == move2.negative?
+        @errors << "if consecutive leaps occur in the same direction, the second leap should be smaller"
+      end
+      i += 1
+    end
+  end
   #leap abation check
+  #leap repetition check
   #direction repeition check
   #opposite direction step check
   #equal and opposite leap check
