@@ -94,6 +94,8 @@ class CantusFirmusError < ApplicationRecord
     puts ""
     climax_position_check
     puts ""
+    climax_repetition_check
+    puts ""
   end
 
   def begin_and_end_check
@@ -156,7 +158,15 @@ class CantusFirmusError < ApplicationRecord
       p "good climax position"
     end
   end
-  #climax position check
+
+  def climax_repetition_check
+    "climax repetition check"
+    if @notes.count(@notes.max) > 1
+      @errors << "Climax should not occur more than once."
+    else
+      "good climax"
+    end
+  end
   #climax repetition check
   #note stagnation check
   #note repetition check
