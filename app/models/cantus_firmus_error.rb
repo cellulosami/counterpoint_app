@@ -96,6 +96,8 @@ class CantusFirmusError < ApplicationRecord
     puts ""
     climax_repetition_check
     puts ""
+    note_stagnation_check
+    puts ""
   end
 
   def begin_and_end_check
@@ -167,7 +169,17 @@ class CantusFirmusError < ApplicationRecord
       "good climax"
     end
   end
-  #climax repetition check
+
+  def note_stagnation_check
+    p "note stagnation check"
+    i = 1
+    while i < @notes.length
+      if @notes[i] == @notes[i-1]
+        @errors << "Note #{i + 1} is the same as its preceeding note; notes should not repeat."
+      end
+      i += 1
+    end
+  end
   #note stagnation check
   #note repetition check
   #duplet repetition check
