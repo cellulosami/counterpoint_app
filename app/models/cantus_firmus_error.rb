@@ -301,7 +301,7 @@ class CantusFirmusError < ApplicationRecord
       if move1.abs > 2 && 
         move2.abs >= move1.abs && 
         move1.negative? == move2.negative?
-        @errors << "if consecutive leaps occur in the same direction, the second leap should be smaller"
+        @errors << "if consecutive leaps occur in the same direction, the second leap should be smaller."
       end
       i += 1
     end
@@ -319,7 +319,7 @@ class CantusFirmusError < ApplicationRecord
         while (@notes[i+1] - @notes[i]).abs() > 2
           i += 1
         end
-        @errors << "From note #{starting_note} to note #{i + 1}, more than two leaps occur in a row"
+        @errors << "From note #{starting_note} to note #{i + 1}, more than two leaps occur in a row."
       end
       i += 1
     end
@@ -327,14 +327,20 @@ class CantusFirmusError < ApplicationRecord
 
   def direction_repetition_check
     p "direction repetition check"
-  end
-
-  def drc_positive
-
-  end
-
-  def drc_negative
-
+    i = 0
+    while i < @notes.length - 5
+      j = 1
+      while (@notes[i+1] - @notes[i]).negative? == (@notes[i+j+1] - @notes[i+j]).negative? && i + j < @notes.length
+        j += 1
+      end
+      if j > 4 && (@notes[i+1] - @notes[i]).negative? == false
+        @errors << "Positive motion is used for more than five notes in a row from note #{i + 1} to note #{i + j + 1}."
+      end
+      if j > 5 && (@notes[i+1] - @notes[i]).negative? == true
+        @errors << "Negative motion is used for more than six notes in a row from note #{i + 1} to note #{i + j + 1}."
+      end
+      i += j
+    end
   end
 
   def opposite_direction_step_check
