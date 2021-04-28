@@ -351,7 +351,7 @@ class CantusFirmusError < ApplicationRecord
         (@notes[i] - @notes[i - 1]).abs() <= 2 &&
         (@notes[i - 1] - @notes[i - 2]).negative? == (@notes[i] - @notes[i - 1]).negative?
 
-        @errors << "There is a large leap followed by a step in the same direction from note #{i - 1} to note #{i + 1}. steps should move in the opposite direction following a large leap."
+        @errors << "There is a large leap (4th or greater) followed by a step in the same direction from note #{i - 1} to note #{i + 1}."
       end
       i += 1
     end
@@ -359,13 +359,24 @@ class CantusFirmusError < ApplicationRecord
 
   def equal_and_opposite_leap_check
     p "equal and opposite leap check"
+    i = 2
+    while i < @notes.length
+      if (@notes[i - 1] - @notes[i - 2]).abs() > 2 &&
+        @notes[i - 1] - @notes[i - 2] == @notes[i - 1] - @notes[i]
+        
+        @errors << "The leap at note #{i - 1} is followed by an equal leap in the opposite direction."
+      end
+      i += 1
+    end
   end
 
   def palindrome_check
     p "palindrome check"
+    #@suggestions << "A palindromic phrase appears from note to note."
   end
 
   def leading_tone_resolution_check
     p "leading tone resolution check"
+    #@errors << "the leading tone at note does not resolve to the tonic."
   end
 end
