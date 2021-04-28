@@ -407,6 +407,14 @@ class CantusFirmusError < ApplicationRecord
 
   def leading_tone_resolution_check
     p "leading tone resolution check"
-    #@errors << "the leading tone at note does not resolve to the tonic."
+    i = 1
+    while i < @notes.length
+      if (((@notes[i - 1] + 48) % 12 == 10 || (@notes[i - 1] + 48) % 12 == 11) && 
+        (@notes[i] + 48) % 12 != 0)
+
+        @errors << "the leading tone at note #{i} does not resolve to the tonic."
+      end
+      i += 1
+    end
   end
 end
