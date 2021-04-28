@@ -311,14 +311,21 @@ class CantusFirmusError < ApplicationRecord
     p "leap repetition check"
     i = 3
     while i < @notes.length
+      p "choc"
       if ((@notes[i-2] - @notes[i-3]).abs() > 2 &&
         (@notes[i-1] - @notes[i-2]).abs() > 2 &&
         (@notes[i] - @notes[i-1]).abs() > 2)
-
+        p "o"
         starting_note = i - 2
-        while (@notes[i+1] - @notes[i]).abs() > 2
+        p 'l'
+        p @notes
+        p @notes[i + 1]
+        p @notes[i]
+        p i
+        while i + 1 < @notes.length && (@notes[i + 1] - @notes[i]).abs() > 2
           i += 1
         end
+        p "ate"
         @errors << "From note #{starting_note} to note #{i + 1}, more than two leaps occur in a row."
       end
       i += 1
