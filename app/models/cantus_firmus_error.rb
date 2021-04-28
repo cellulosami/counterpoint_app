@@ -345,6 +345,16 @@ class CantusFirmusError < ApplicationRecord
 
   def opposite_direction_step_check
     p "opposite direction step check"
+    i = 2
+    while i < @notes.length
+      if (@notes[i - 1] - @notes[i - 2]).abs() >= 5 &&
+        (@notes[i] - @notes[i - 1]).abs() <= 2 &&
+        (@notes[i - 1] - @notes[i - 2]).negative? == (@notes[i] - @notes[i - 1]).negative?
+
+        @errors << "There is a large leap followed by a step in the same direction from note #{i - 1} to note #{i + 1}. steps should move in the opposite direction following a large leap."
+      end
+      i += 1
+    end
   end
 
   def equal_and_opposite_leap_check
