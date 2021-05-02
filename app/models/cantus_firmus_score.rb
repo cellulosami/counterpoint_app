@@ -50,6 +50,24 @@ class CantusFirmusScore < ApplicationRecord
         14=>{:steps=>[-2, 1], :leaps=>[-12, -7, -5, -4]}, 
         15=>{:steps=>[-1], :leaps=>[-12, -5, -3]}
       }
+    elsif @mode == "aeolian"
+      @original_valid_movements = {
+        -9=>{:steps=>[2], :leaps=>[5, 7, 12]}, 
+        -7=>{:steps=>[-2, 2], :leaps=>[3, 5, 7, 12]}, 
+        -5=>{:steps=>[-2, 1], :leaps=>[-4, 3, 5, 7, 12]}, 
+        -4=>{:steps=>[-1, 2], :leaps=>[-5, -3, 4, 7, 12]}, 
+        -2=>{:steps=>[2], :leaps=>[]}, 
+        0=>{:steps=>[-2, 2], :leaps=>[-7, -5, -4, 3, 5, 7, 8, 12]}, 
+        2=>{:steps=>[-2, 1], :leaps=>[-7, -4, 3, 5, 8, 12]}, 
+        3=>{:steps=>[-1, 2], :leaps=>[-12, -5, -3, 4, 5, 7, 12]}, 
+        5=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -3, 3, 5, 7]}, 
+        7=>{:steps=>[-2, 1], :leaps=>[-12, -7, -5, -4, 3, 5, 7]}, 
+        8=>{:steps=>[-1, 2], :leaps=>[-12, -5, -3, 4, 7]}, 
+        10=>{:steps=>[2], :leaps=>[]}, 
+        12=>{:steps=>[-2, 2], :leaps=>[-12, -7, -5, -4, 3]}, 
+        14=>{:steps=>[-2, 1], :leaps=>[-12, -7, -4]}, 
+        15=>{:steps=>[-1], :leaps=>[-12, -7, -5, -3]}
+      }
     end
   end
 
@@ -161,10 +179,38 @@ class CantusFirmusScore < ApplicationRecord
         "14" => "e/5",
         "15" => "f/5"
       }
+    elsif @mode == "aeolian"
+      converter = {
+        "-12" => "a/3",
+        "-10" => "b/3",
+        "-9" => "c/4",
+        "-7" => "d/4",
+        "-5" => "e/4",
+        "-4" => "f/4",
+        "-2" => "g/4",
+        "0" => "a/4",
+        "2" => "b/4",
+        "3" => "c/5",
+        "5" => "d/5",
+        "7" => "e/5",
+        "8" => "f/5",
+        "10" => "g/5",
+        "12" => "a/5",
+        "14" => "b/5",
+        "15" => "c/5"
+      }
     end
     @notes = @notes.map { |note| converter[note.to_s]}
     if @mode == "dorian" && @notes[-2] == "c/4"
       @notes[-2] = "c#/4"
+    end
+    if @mode == "aeolian"
+      if @notes[-3] == "f/4"
+        @notes[-3] = "f#/4"
+      end
+      if @notes[-2] == "g/4"
+        @notes[-2] = "g#/4"
+      end
     end
     return @notes
   end

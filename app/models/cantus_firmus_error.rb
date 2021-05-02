@@ -1,13 +1,14 @@
 class CantusFirmusError < ApplicationRecord
   attr_accessor :notes, :errors, :suggestions, :mode
 
+  
   def evaluate(input)
     setup_evaluate(input)
     
     if @diatonic == true
       error_check
     end
-
+    
     if @errors == []
       @errors << "No errors."
     end
@@ -15,19 +16,20 @@ class CantusFirmusError < ApplicationRecord
       @suggestions << "No suggestions."
     end
   end
-
+  
   def setup_evaluate(input)
     @diatonic = true
     @errors = []
     @suggestions = []
     @notes = translate_notes(input)
     @length = @notes.length
+    @consonant_leaps = [-12, -7, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 7, 8, 12]
     p @mode
     p @translator
     p @notes
     setup_reverse_translator
   end
-
+  
   def translate_notes(notes) #converts note strings into integers
     setup_translator
     result = []
@@ -41,7 +43,7 @@ class CantusFirmusError < ApplicationRecord
     end
     return result
   end
-
+  
   def setup_translator
     if @mode == "ionian"
       @translator = {
@@ -82,7 +84,7 @@ class CantusFirmusError < ApplicationRecord
       }
     end
   end
-
+  
   def setup_reverse_translator
     if @mode == "ionian"
       @reverse_translator = {
@@ -128,6 +130,7 @@ class CantusFirmusError < ApplicationRecord
     begin_and_end_check
     range_check
     penultimate_check
+    consonant_leap_check
     climax_value_check
     climax_position_check
     climax_repetition_check
@@ -144,13 +147,13 @@ class CantusFirmusError < ApplicationRecord
     palindrome_check
     leading_tone_resolution_check
   end
-
+  
   def begin_and_end_check
     p "begin and end check"
     if @notes[0] != 0
       errors << "First note is not the tonic."
     end
-
+    
     if @notes[-1] != 0
       errors << "Last note is not the tonic."
     elsif @notes[0] == 0
@@ -168,13 +171,24 @@ class CantusFirmusError < ApplicationRecord
       p "good range"
     end
   end
-
+  
   def penultimate_check
     p "penultimate check"
     if @notes[-2] < @notes[-1] - 2 || @notes[-2] == @notes[-1] || @notes[-2] > @notes[-1] + 2
       @errors << "Final note is not approached by step."
     else
       p "good penultimate"
+    end
+  end
+  
+  def consonant_leap_check
+    p "consonant leap check"
+    i = 1
+    while i < @notes.length
+      unless @consonant_leaps.include? (@notes[i] - @notes[i - 1])
+        @errors << "The leap from note #{i} to note #{i + 1} is not consonant."
+      end
+      i += 1
     end
   end
 
