@@ -1,8 +1,9 @@
 class CantusFirmusFilter < ApplicationRecord
-  def self.filter(movements, position, notes)
+  def self.filter(movements, position, notes, mode)
     @position = position
     @notes = notes
     @movements = movements
+    @mode = mode
     @steps = movements[position][:steps]
     @leaps = movements[position][:leaps]
     
@@ -18,6 +19,7 @@ class CantusFirmusFilter < ApplicationRecord
     self.note_repetition_filter
     self.climax_filter
     self.triplet_repetition_filter
+    self.aeolian_preantepenultimate_filter
 
     @movements[position][:steps] = @steps
     @movements[position][:leaps] = @leaps
@@ -216,6 +218,20 @@ class CantusFirmusFilter < ApplicationRecord
           @steps = @steps.select { |move| (@notes[@position] + move) < highest_note }
           @leaps = @leaps.select { |move| (@notes[@position] + move) < highest_note }
         end
+      end
+    end
+  end
+
+  def self.aeolian_preantepenultimate_filter
+    if @mode == "aeolian" && @position == (@notes.length - 4) && @leaps [0]
+      if @notes[@position] == -9
+        @leaps = @leaps.select { |move| move != 5 }
+      end
+      if @notes[@position] == 3
+        @leaps = @leaps.select { |move| move != -7 }
+      end
+      if @notes[@position] == 8
+        @leaps = @leaps.select { |move| move != -12 }
       end
     end
   end

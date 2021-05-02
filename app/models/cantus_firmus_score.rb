@@ -73,10 +73,10 @@ class CantusFirmusScore < ApplicationRecord
 
   def determine_current_available_movements
     @current_available_movements[@current_note_position] = @original_valid_movements[@notes[@current_note_position]].dup
-    p "round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`"
-    p @current_note_position
-    p @notes
-    p @current_available_movements
+    # p "round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`"
+    # p @current_note_position
+    # p @notes
+    # p @current_available_movements
   end
 
   def execute_movement
@@ -125,7 +125,7 @@ class CantusFirmusScore < ApplicationRecord
         execute_movement
         @current_note_position += 1
         determine_current_available_movements
-        @current_available_movements = CantusFirmusFilter.filter(@current_available_movements, @current_note_position, @notes)
+        @current_available_movements = CantusFirmusFilter.filter(@current_available_movements, @current_note_position, @notes, @mode)
       else
         @current_note_position -= 1
         @iterations += 1
