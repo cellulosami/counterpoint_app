@@ -82,6 +82,26 @@ class CantusFirmusError < ApplicationRecord
         "e/5" => 14,
         "f/5" => 15,
       }
+    elsif @mode == "aeolian"
+      @translator = {
+        "c/4" => -9,
+        "d/4" => -7,
+        "e/4" => -5,
+        "f/4" => -4,
+        "f#/4" => -3,
+        "g/4" => -2,
+        "g#/4" => -1,
+        "a/4" => 0,
+        "b/4" => 2,
+        "c/5" => 3,
+        "d/5" => 5,
+        "e/5" => 7,
+        "f/5" => 8,
+        "g/5" => 10,
+        "a/5" => 12,
+        "b/5" => 14,
+        "c/6" => 15,
+      }
     end
   end
   
@@ -121,6 +141,24 @@ class CantusFirmusError < ApplicationRecord
         "12" => "D5",
         "14" => "E5",
         "15" => "F5"
+      }
+    elsif @mode == "aeolian"
+      @reverse_translator = {
+        "-9" => "C4",
+        "-7" => "D4",
+        "-5" => "E4",
+        "-4" => "F4",
+        "-2" => "G4",
+        "0" => "A4",
+        "2" => "B4",
+        "3" => "C5",
+        "5" => "D5",
+        "7" => "E5",
+        "8" => "F5",
+        "10" => "G5",
+        "12" => "A5",
+        "14" => "B5",
+        "15" => "C6"
       }
     end
   end
