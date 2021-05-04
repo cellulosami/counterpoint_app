@@ -39,6 +39,7 @@ class CantusFirmusError < ApplicationRecord
       else
         @errors << "Not all notes are diatonic. Please correct in order to see other errors/suggestions."
         @diatonic = false
+        break
       end
     end
     return result
