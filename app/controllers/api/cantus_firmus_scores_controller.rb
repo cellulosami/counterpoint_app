@@ -20,4 +20,8 @@ class Api::CantusFirmusScoresController < ApplicationController
     end
     render json: scores
   end
+
+  def index
+    render json: { message: "success" }
+  end
 end
