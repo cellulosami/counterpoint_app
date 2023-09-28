@@ -1,4 +1,4 @@
-class CantusFirmusValidator < ApplicationRecord
+class CantusFirmusValidator
   def self.valid?(notes)
     @notes = notes
     return self.penultimate_check && self.range_check && self.climax_check && leap_percentage_check && self.note_repetition_check && self.pair_repetition_check && self.triplet_repetition_check

@@ -1,4 +1,4 @@
-class CantusFirmusError < ApplicationRecord
+class CantusFirmusError
   attr_accessor :notes, :errors, :suggestions, :mode
 
   

@@ -1,4 +1,4 @@
-class CantusFirmusScore < ApplicationRecord
+class CantusFirmusScore
   attr_accessor :original_valid_movements, :notes, :length, :current_available_movements, :current_note_position, :iterations, :mode
 
   def startup

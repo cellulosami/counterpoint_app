@@ -1,4 +1,4 @@
-class CantusFirmusFilter < ApplicationRecord
+class CantusFirmusFilter
   def self.filter(movements, position, notes, mode)
     @position = position
     @notes = notes
